@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>基于多 Agent 的学习路径可视化系统</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='9' cy='20' r='5' fill='%234cc9f0'/%3E%3Ccircle cx='31' cy='9' r='5' fill='%237b61ff'/%3E%3Ccircle cx='31' cy='31' r='5' fill='%233ddc97'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="backdrop">
+    <div class="blob blob-a"></div>
+    <div class="blob blob-b"></div>
+    <div class="grid-mask"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="9" cy="20" r="5" />
+        <circle cx="31" cy="9" r="5" />
+        <circle cx="31" cy="31" r="5" />
+        <path d="M13.5 18 L26.5 11 M13.5 22 L26.5 29" />
+      </svg>
+      <div class="brand-text">
+        <h1>基于多 Agent 的学习路径可视化系统</h1>
+        <p>Learning Path Visualizer · Intent → Knowledge → Path → Visual → Review</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="badge" id="llmBadge"><i class="dot"></i><span>检测模型状态…</span></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">MULTI-AGENT LEARNING MAP</p>
+      <h2>输入一个学习目标，<br /><span class="grad">得到一张可执行的学习地图</span></h2>
+      <p class="lede">
+        五个 Agent 协作完成目标解析、知识检索、路径规划、可视化建模与质量审查，
+        输出知识图谱、阶段路线、周计划与学习清单。
+      </p>
+
+      <form class="composer" id="goalForm">
+        <div class="composer-field">
+          <textarea id="goalInput" rows="2" maxlength="300"
+            placeholder="例如：我想学习机器视觉，希望最后能独立完成工业缺陷检测项目"></textarea>
+          <span class="char-count" id="charCount">0 / 300</span>
+        </div>
+        <div class="examples" id="examples">
+          <button type="button" class="chip" data-goal="我想学习机器视觉" data-week="12">机器视觉</button>
+          <button type="button" class="chip" data-goal="我想从零学习 Python 后端" data-week="16">Python 后端</button>
+          <button type="button" class="chip" data-goal="我想备考研究生入学考试，专业课考 408" data-week="40" data-hours="20">考研 408</button>
+          <button type="button" class="chip" data-goal="我想系统学习大模型应用开发" data-week="16">大模型应用开发</button>
+        </div>
+        <div class="controls">
+          <label class="control">
+            <span>当前基础</span>
+            <select id="levelInput">
+              <option value="零基础">零基础</option>
+              <option value="有入门基础">有入门基础</option>
+              <option value="有相关经验">有相关经验</option>
+              <option value="进阶提升">进阶提升</option>
+            </select>
+          </label>
+          <label class="control">
+            <span>期望周期</span>
+            <span class="unit"><input id="weeksInput" type="number" min="1" max="104" value="12" />周</span>
+          </label>
+          <label class="control">
+            <span>每周投入</span>
+            <span class="unit"><input id="hoursInput" type="number" min="1" max="80" value="10" />小时</span>
+          </label>
+          <button class="primary" id="submitBtn" type="submit">
+            <span>生成学习路径</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel-block pipeline-block">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">AGENT PIPELINE</p>
+          <h3>Agent 协作过程</h3>
+        </div>
+        <span class="muted" id="pipelineStatus">待开始</span>
+      </div>
+      <div class="agents" id="agents"></div>
+    </section>
+
+    <section class="results" id="results" hidden>
+      <div class="result-head">
+        <div>
+          <p class="eyebrow" id="resultDomain">—</p>
+          <h2 id="resultTopic">—</h2>
+          <p class="lede" id="resultTarget">—</p>
+        </div>
+        <div class="result-actions">
+          <button class="ghost" id="editBtn" type="button">调整路径</button>
+          <button class="ghost" id="exportBtn" type="button">导出 JSON</button>
+        </div>
+      </div>
+
+      <div class="stat-row" id="statRow"></div>
+
+      <div class="tabs" id="tabs" role="tablist" aria-label="结果视图">
+        <button type="button" role="tab" aria-selected="true" data-tab="graph" class="active">知识图谱</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="roadmap">阶段路线</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="gantt">周计划</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="list">学习清单</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="review">审查报告</button>
+      </div>
+
+      <div class="panel-view" id="panel-graph">
+        <div class="graph-layout">
+          <div id="graphChart" class="chart"></div>
+          <aside class="node-detail" id="nodeDetail">
+            <p class="eyebrow">NODE INSIGHT</p>
+            <p class="muted">点击左侧任一知识点，查看它的依赖、学时与推荐资源。</p>
+          </aside>
+        </div>
+      </div>
+
+      <div class="panel-view" id="panel-roadmap" hidden>
+        <div class="roadmap" id="roadmap"></div>
+        <div class="callout" id="rationale"></div>
+      </div>
+
+      <div class="panel-view" id="panel-gantt" hidden>
+        <div id="ganttChart" class="chart chart-tall"></div>
+        <div class="week-grid" id="weekGrid"></div>
+      </div>
+
+      <div class="panel-view" id="panel-list" hidden>
+        <div class="progress-bar">
+          <span id="progressFill"></span>
+        </div>
+        <p class="muted" id="progressText">学习进度 0%</p>
+        <div id="checklist"></div>
+      </div>
+
+      <div class="panel-view" id="panel-review" hidden>
+        <div class="review-top">
+          <div class="score-ring" id="scoreRing"><span id="scoreValue">0</span><small>质量分</small></div>
+          <div>
+            <p class="eyebrow">REVIEW REPORT</p>
+            <h3 id="reviewSummary">—</h3>
+            <p class="muted" id="reviewMeta"></p>
+          </div>
+        </div>
+        <div class="issue-list" id="issueList"></div>
+        <div class="callout" id="fixList"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Python · FastAPI · LangGraph · ECharts</span>
+    <span>5 个 Agent 协作 · 支持 OpenAI 兼容模型 · 无 Key 自动降级为规则引擎</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="modal" id="editModal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+      <header class="modal-head">
+        <div>
+          <p class="eyebrow">ADJUST PATH</p>
+          <h3 id="editTitle">调整学习路径</h3>
+        </div>
+        <button class="icon-btn" type="button" data-close aria-label="关闭">×</button>
+      </header>
+
+      <div class="modal-body">
+        <div class="edit-params">
+          <label class="control">
+            <span>期望周期</span>
+            <span class="unit"><input id="editWeeks" type="number" min="1" max="104" />周</span>
+          </label>
+          <label class="control">
+            <span>每周投入</span>
+            <span class="unit"><input id="editHours" type="number" min="1" max="80" />小时</span>
+          </label>
+          <p class="muted" id="editSummary"></p>
+        </div>
+
+        <div class="edit-section">
+          <div class="edit-section-head">
+            <h4>已纳入知识点</h4>
+            <span class="muted">改学时或移除，排序与周次会自动重算</span>
+          </div>
+          <div id="editSelected" class="edit-list"></div>
+        </div>
+
+        <div class="edit-section">
+          <div class="edit-section-head">
+            <h4>可补充知识点</h4>
+            <span class="muted">来自当前知识体系，点击「加入」放回路径</span>
+          </div>
+          <div id="editAvailable" class="edit-available"></div>
+        </div>
+
+        <div class="edit-section">
+          <div class="edit-section-head">
+            <h4>自定义新增</h4>
+            <span class="muted">补充知识库没有覆盖的内容</span>
+          </div>
+          <div class="edit-add">
+            <input id="newName" maxlength="30" placeholder="知识点名称" />
+            <select id="newLevel">
+              <option value="1">入门</option>
+              <option value="2">基础</option>
+              <option value="3">进阶</option>
+              <option value="4">实战</option>
+            </select>
+            <input id="newCategory" maxlength="12" placeholder="分类（可选）" />
+            <span class="unit"><input id="newHours" type="number" min="1" max="40" value="6" />h</span>
+            <button class="ghost" id="addPointBtn" type="button">添加</button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="modal-foot">
+        <span class="muted" id="editHint">调整后会重新排期并再次运行 Review Agent</span>
+        <div class="modal-actions">
+          <button class="ghost" type="button" data-close>取消</button>
+          <button class="primary" id="applyEditsBtn" type="button"><span>应用调整并重新审查</span></button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="/static/vendor/echarts.min.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

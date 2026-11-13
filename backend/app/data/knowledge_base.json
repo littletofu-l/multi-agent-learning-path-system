@@ -1,0 +1,120 @@
+{
+  "domains": {
+    "machine-vision": {
+      "label": "机器视觉 / 计算机视觉",
+      "keywords": ["机器视觉", "计算机视觉", "视觉", "opencv", "图像处理", "工业检测", "缺陷检测", "yolo", "目标检测", "三维视觉", "点云", "cv"],
+      "overview": "从图像处理基础出发，逐步进入深度学习视觉算法，最终完成工业级检测项目与部署。",
+      "points": [
+        {"id": "mv-01", "name": "Python 编程基础", "category": "编程基础", "level": 1, "hours": 6, "prerequisites": [], "summary": "变量、容器、函数、文件读写与调试，能独立写小脚本处理数据。", "resource": "《Python Crash Course》第 1-11 章"},
+        {"id": "mv-02", "name": "线性代数与矩阵运算", "category": "数学基础", "level": 1, "hours": 6, "prerequisites": [], "summary": "向量、矩阵乘法、特征值分解，理解图像即矩阵、卷积即线性变换。", "resource": "3Blue1Brown《线性代数的本质》"},
+        {"id": "mv-03", "name": "概率统计基础", "category": "数学基础", "level": 1, "hours": 5, "prerequisites": [], "summary": "分布、期望方差、贝叶斯与假设检验，为评估指标打基础。", "resource": "可汗学院统计与概率"},
+        {"id": "mv-04", "name": "数字图像基础", "category": "图像处理", "level": 1, "hours": 5, "prerequisites": ["mv-01"], "summary": "像素、通道、色彩空间、直方图与图像表示。", "resource": "《数字图像处理》冈萨雷斯 第 2 章"},
+        {"id": "mv-05", "name": "OpenCV 图像读写与显示", "category": "工具链", "level": 1, "hours": 5, "prerequisites": ["mv-04"], "summary": "用 OpenCV 完成读图、显示、裁剪、缩放与批量处理。", "resource": "OpenCV 官方 Python 教程"},
+        {"id": "mv-06", "name": "图像滤波与增强", "category": "图像处理", "level": 2, "hours": 6, "prerequisites": ["mv-05"], "summary": "均值/高斯/中值滤波、锐化、直方图均衡与对比度增强。", "resource": "《数字图像处理》第 3-4 章"},
+        {"id": "mv-07", "name": "边缘检测与形态学", "category": "图像处理", "level": 2, "hours": 6, "prerequisites": ["mv-06"], "summary": "Sobel/Canny 边缘、膨胀腐蚀、开闭运算，构建分割前处理链。", "resource": "OpenCV 形态学与边缘检测文档"},
+        {"id": "mv-08", "name": "特征提取（角点/SIFT/ORB）", "category": "图像处理", "level": 2, "hours": 7, "prerequisites": ["mv-07", "mv-02"], "summary": "角点、描述子、特征匹配与单应性估计。", "resource": "《视觉 SLAM 十四讲》第 3-4 章"},
+        {"id": "mv-09", "name": "相机成像模型与标定", "category": "视觉几何", "level": 2, "hours": 8, "prerequisites": ["mv-02"], "summary": "针孔模型、内参外参、畸变校正与张正友标定。", "resource": "OpenCV 相机标定教程"},
+        {"id": "mv-10", "name": "颜色空间与光照处理", "category": "图像处理", "level": 2, "hours": 4, "prerequisites": ["mv-06"], "summary": "HSV/Lab 分割、白平衡与光照不均校正，提升工业场景鲁棒性。", "resource": "OpenCV 色彩空间转换文档"},
+        {"id": "mv-11", "name": "传统检测：模板匹配与 Blob 分析", "category": "缺陷检测", "level": 2, "hours": 6, "prerequisites": ["mv-08"], "summary": "模板匹配、连通域分析、轮廓测量等传统工业检测手段。", "resource": "OpenCV 轮廓与连通域教程"},
+        {"id": "mv-12", "name": "机器学习基础与评估指标", "category": "机器学习", "level": 2, "hours": 8, "prerequisites": ["mv-03"], "summary": "分类回归、过拟合、交叉验证、Accuracy/Precision/Recall/mAP。", "resource": "吴恩达《机器学习》前 5 周"},
+        {"id": "mv-13", "name": "深度学习与神经网络基础", "category": "深度学习", "level": 3, "hours": 8, "prerequisites": ["mv-12", "mv-02"], "summary": "感知机、激活函数、损失函数、反向传播与优化器。", "resource": "《深度学习》花书 第 6-8 章"},
+        {"id": "mv-14", "name": "CNN 与图像分类", "category": "深度学习", "level": 3, "hours": 10, "prerequisites": ["mv-13"], "summary": "卷积、池化、经典网络结构（ResNet 等）与图像分类实战。", "resource": "PyTorch 官方 60 分钟入门 + torchvision"},
+        {"id": "mv-15", "name": "目标检测（YOLO 系列）", "category": "深度学习", "level": 3, "hours": 10, "prerequisites": ["mv-14"], "summary": "锚框、NMS、YOLOv8 训练与评估，完成自定义数据集检测。", "resource": "Ultralytics YOLO 官方文档"},
+        {"id": "mv-16", "name": "语义分割与实例分割", "category": "深度学习", "level": 3, "hours": 8, "prerequisites": ["mv-14"], "summary": "U-Net、Mask R-CNN 思路与像素级缺陷分割。", "resource": "U-Net 原始论文 + segmentation_models.pytorch"},
+        {"id": "mv-17", "name": "数据标注与数据集构建", "category": "工程实践", "level": 3, "hours": 5, "prerequisites": ["mv-15"], "summary": "标注规范、LabelImg/CVAT、数据增强与训练集划分。", "resource": "CVAT 官方文档"},
+        {"id": "mv-18", "name": "迁移学习与模型微调", "category": "深度学习", "level": 3, "hours": 6, "prerequisites": ["mv-14"], "summary": "预训练权重、冻结策略、学习率调度与小样本微调。", "resource": "PyTorch 迁移学习教程"},
+        {"id": "mv-19", "name": "3D 视觉与点云处理", "category": "三维视觉", "level": 4, "hours": 10, "prerequisites": ["mv-09", "mv-16"], "summary": "双目/结构光、点云滤波配准、3D 缺陷检测思路。", "resource": "Open3D 官方教程"},
+        {"id": "mv-20", "name": "工业缺陷检测实战项目", "category": "项目实战", "level": 4, "hours": 16, "prerequisites": ["mv-17", "mv-18", "mv-11"], "summary": "从数据采集到模型训练、误检漏检分析与报告输出。", "resource": "MVTec AD 数据集 + 自建产线数据"},
+        {"id": "mv-21", "name": "模型部署（ONNX / TensorRT）", "category": "工程部署", "level": 4, "hours": 10, "prerequisites": ["mv-15", "mv-18"], "summary": "模型导出、量化加速、推理服务封装与性能测试。", "resource": "ONNX Runtime / TensorRT 官方文档"},
+        {"id": "mv-22", "name": "视觉系统方案设计与答辩", "category": "项目实战", "level": 4, "hours": 8, "prerequisites": ["mv-20", "mv-21"], "summary": "输出含硬件选型、算法链路、指标与成本的技术方案。", "resource": "企业视觉方案案例集"}
+      ]
+    },
+    "python-backend": {
+      "label": "Python 后端开发",
+      "keywords": ["python 后端", "python后端", "python服务端", "fastapi", "django", "flask", "python web", "python接口", "python爬虫"],
+      "overview": "从语言基础到工程化交付，覆盖数据库、缓存、消息队列、容器化与项目实战。",
+      "points": [
+        {"id": "pb-01", "name": "Python 语法与数据结构", "category": "语言基础", "level": 1, "hours": 6, "prerequisites": [], "summary": "列表/字典/集合、切片、推导式与常用内置库。", "resource": "Python 官方教程"},
+        {"id": "pb-02", "name": "函数与模块化", "category": "语言基础", "level": 1, "hours": 4, "prerequisites": ["pb-01"], "summary": "函数、装饰器、包与虚拟环境管理。", "resource": "《流畅的 Python》第 5-7 章"},
+        {"id": "pb-03", "name": "面向对象与设计原则", "category": "语言基础", "level": 1, "hours": 6, "prerequisites": ["pb-02"], "summary": "类、继承、组合、SOLID 与常见设计模式。", "resource": "《Python 设计模式》"},
+        {"id": "pb-04", "name": "Git 与工程规范", "category": "工程素养", "level": 1, "hours": 3, "prerequisites": ["pb-01"], "summary": "分支管理、提交规范、代码风格（ruff/mypy）。", "resource": "Pro Git 中文版"},
+        {"id": "pb-05", "name": "HTTP 与 REST 设计", "category": "网络基础", "level": 1, "hours": 5, "prerequisites": ["pb-01"], "summary": "请求响应、状态码、鉴权头与资源化接口设计。", "resource": "MDN HTTP 文档"},
+        {"id": "pb-06", "name": "异步编程 asyncio", "category": "语言进阶", "level": 2, "hours": 6, "prerequisites": ["pb-03"], "summary": "事件循环、协程、并发控制与 async 生态。", "resource": "《流畅的 Python》第 19-21 章"},
+        {"id": "pb-07", "name": "SQL 与关系型数据库", "category": "数据存储", "level": 2, "hours": 8, "prerequisites": ["pb-03"], "summary": "建模、索引、事务与慢查询优化。", "resource": "《MySQL 必知必会》"},
+        {"id": "pb-08", "name": "ORM 与 SQLAlchemy", "category": "数据存储", "level": 2, "hours": 6, "prerequisites": ["pb-07", "pb-03"], "summary": "模型映射、会话管理、迁移（Alembic）。", "resource": "SQLAlchemy 2.0 官方教程"},
+        {"id": "pb-09", "name": "FastAPI 框架入门", "category": "Web 框架", "level": 2, "hours": 8, "prerequisites": ["pb-05", "pb-06"], "summary": "路由、依赖注入、生命周期与自动文档。", "resource": "FastAPI 官方教程"},
+        {"id": "pb-10", "name": "Pydantic 校验与接口契约", "category": "Web 框架", "level": 2, "hours": 4, "prerequisites": ["pb-09"], "summary": "请求/响应模型、校验器与 OpenAPI 契约设计。", "resource": "Pydantic V2 文档"},
+        {"id": "pb-11", "name": "认证授权（JWT/OAuth2）", "category": "安全", "level": 3, "hours": 6, "prerequisites": ["pb-09", "pb-08"], "summary": "令牌签发、权限模型与越权防护。", "resource": "FastAPI Security 教程"},
+        {"id": "pb-12", "name": "Redis 缓存与限流", "category": "中间件", "level": 3, "hours": 6, "prerequisites": ["pb-09"], "summary": "缓存策略、过期与击穿、分布式锁与限流算法。", "resource": "Redis 官方文档"},
+        {"id": "pb-13", "name": "消息队列与任务调度", "category": "中间件", "level": 3, "hours": 7, "prerequisites": ["pb-12"], "summary": "Celery/RabbitMQ 异步任务、重试与幂等。", "resource": "Celery 官方文档"},
+        {"id": "pb-14", "name": "单元测试与集成测试", "category": "工程质量", "level": 3, "hours": 6, "prerequisites": ["pb-09"], "summary": "pytest、fixture、mock 与接口回归测试。", "resource": "pytest 官方文档"},
+        {"id": "pb-15", "name": "Docker 与容器化交付", "category": "工程部署", "level": 3, "hours": 6, "prerequisites": ["pb-04"], "summary": "镜像分层、多阶段构建、Compose 编排。", "resource": "Docker 官方 Get Started"},
+        {"id": "pb-16", "name": "性能优化与可观测性", "category": "工程部署", "level": 4, "hours": 8, "prerequisites": ["pb-12", "pb-14"], "summary": "压测、日志/指标/链路追踪与瓶颈定位。", "resource": "OpenTelemetry + Locust"},
+        {"id": "pb-17", "name": "微服务与 API 网关", "category": "架构", "level": 4, "hours": 8, "prerequisites": ["pb-11", "pb-13"], "summary": "服务拆分、注册发现、网关与分布式事务取舍。", "resource": "《微服务架构设计模式》"},
+        {"id": "pb-18", "name": "全栈后端项目实战", "category": "项目实战", "level": 4, "hours": 20, "prerequisites": ["pb-10", "pb-11", "pb-13", "pb-15", "pb-16"], "summary": "交付一个含鉴权、缓存、异步任务、测试与部署的完整服务。", "resource": "FastAPI 全栈模板项目"}
+      ]
+    },
+    "postgraduate": {
+      "label": "研究生入学考试备考",
+      "keywords": ["考研", "研究生", "入学考试", "408", "初试", "复试", "数学一", "数学二", "英语一", "政治"],
+      "overview": "按基础—强化—真题—冲刺四阶段推进，公共课与专业课并行、按周配比。",
+      "points": [
+        {"id": "pg-01", "name": "目标院校与专业信息调研", "category": "规划", "level": 1, "hours": 3, "prerequisites": [], "summary": "确定目标院校专业、考试科目、分数线与参考书。", "resource": "研招网 + 院校研究生院官网"},
+        {"id": "pg-02", "name": "全年复习规划与时间管理", "category": "规划", "level": 1, "hours": 3, "prerequisites": ["pg-01"], "summary": "拆解月度目标、周计划与每日节奏，设置复盘机制。", "resource": "《刻意练习》+ 番茄工作法"},
+        {"id": "pg-03", "name": "英语词汇与长难句", "category": "英语", "level": 1, "hours": 10, "prerequisites": ["pg-02"], "summary": "核心词汇循环记忆、语法长难句拆解训练。", "resource": "恋练有词 / 红宝书"},
+        {"id": "pg-04", "name": "高等数学基础", "category": "数学", "level": 1, "hours": 12, "prerequisites": ["pg-02"], "summary": "极限、导数、积分、多元微分的概念与计算。", "resource": "《高等数学》同济版 + 基础班视频"},
+        {"id": "pg-05", "name": "线性代数基础", "category": "数学", "level": 2, "hours": 10, "prerequisites": ["pg-04"], "summary": "矩阵、行列式、特征值、二次型与线性方程组。", "resource": "《线性代数》同济版"},
+        {"id": "pg-06", "name": "概率论与数理统计", "category": "数学", "level": 2, "hours": 10, "prerequisites": ["pg-04"], "summary": "随机变量、分布、数字特征、参数估计与假设检验。", "resource": "《概率论与数理统计》浙大版"},
+        {"id": "pg-07", "name": "英语阅读与写作", "category": "英语", "level": 2, "hours": 12, "prerequisites": ["pg-03"], "summary": "真题阅读精读、题型技巧与大作文模板内化。", "resource": "考研英语真题（2010 起）"},
+        {"id": "pg-08", "name": "政治马原与史纲", "category": "政治", "level": 2, "hours": 10, "prerequisites": ["pg-02"], "summary": "马原原理、史纲时间线、毛中特框架梳理。", "resource": "肖秀荣精讲精练"},
+        {"id": "pg-09", "name": "数据结构（408）", "category": "专业课", "level": 2, "hours": 12, "prerequisites": ["pg-04"], "summary": "线性表、树、图、查找排序与算法复杂度分析。", "resource": "《数据结构》严蔚敏 + 王道"},
+        {"id": "pg-10", "name": "计算机组成原理（408）", "category": "专业课", "level": 3, "hours": 12, "prerequisites": ["pg-09"], "summary": "数据表示、CPU、存储层次、指令系统与流水线。", "resource": "《计算机组成原理》唐朔飞"},
+        {"id": "pg-11", "name": "操作系统（408）", "category": "专业课", "level": 3, "hours": 10, "prerequisites": ["pg-09"], "summary": "进程线程、调度、内存管理、文件系统与死锁。", "resource": "《操作系统》汤小丹"},
+        {"id": "pg-12", "name": "计算机网络（408）", "category": "专业课", "level": 3, "hours": 8, "prerequisites": ["pg-09"], "summary": "分层模型、TCP/IP、路由、拥塞控制与网络安全。", "resource": "《计算机网络》谢希仁"},
+        {"id": "pg-13", "name": "数学强化与题型总结", "category": "数学", "level": 3, "hours": 14, "prerequisites": ["pg-05", "pg-06"], "summary": "强化课 + 题型归纳 + 错题本，主攻综合题。", "resource": "《1000 题》/ 强化班讲义"},
+        {"id": "pg-14", "name": "政治时政与主观题", "category": "政治", "level": 3, "hours": 8, "prerequisites": ["pg-08"], "summary": "时政热点、主观题答题框架与背诵节奏。", "resource": "肖四肖八 + 时政小册子"},
+        {"id": "pg-15", "name": "专业课真题精练", "category": "专业课", "level": 3, "hours": 16, "prerequisites": ["pg-10", "pg-11", "pg-12"], "summary": "按年份成套训练，归纳高频考点与易错点。", "resource": "408 历年真题（近 15 年）"},
+        {"id": "pg-16", "name": "全科真题与模考冲刺", "category": "冲刺", "level": 4, "hours": 20, "prerequisites": ["pg-13", "pg-14", "pg-15"], "summary": "限时全真模考、分数曲线跟踪与查漏补缺。", "resource": "各科近 10 年真题"},
+        {"id": "pg-17", "name": "复试准备（面试/项目/口语）", "category": "冲刺", "level": 4, "hours": 10, "prerequisites": ["pg-16"], "summary": "中英文自我介绍、项目讲解、专业课追问与导师沟通。", "resource": "目标院校复试细则"}
+      ]
+    },
+    "deep-learning": {
+      "label": "机器学习 / 深度学习",
+      "keywords": ["机器学习", "深度学习", "人工智能", "神经网络", "大模型", "transformer", "pytorch", "nlp", "ai", "算法工程师", "llm"],
+      "overview": "数学与框架打底，深入 CNN/Transformer，最后进入训练调优、论文复现与部署。",
+      "points": [
+        {"id": "dl-01", "name": "Python 与科学计算栈", "category": "编程基础", "level": 1, "hours": 6, "prerequisites": [], "summary": "NumPy/Pandas/Matplotlib 数据处理与可视化。", "resource": "NumPy 官方 Quickstart"},
+        {"id": "dl-02", "name": "线性代数与概率统计", "category": "数学基础", "level": 1, "hours": 8, "prerequisites": ["dl-01"], "summary": "矩阵运算、梯度、概率分布与最大似然。", "resource": "《深度学习》花书 第 2-3 章"},
+        {"id": "dl-03", "name": "机器学习基础", "category": "机器学习", "level": 2, "hours": 10, "prerequisites": ["dl-02"], "summary": "线性/逻辑回归、树模型、正则化与评估指标。", "resource": "吴恩达《机器学习》"},
+        {"id": "dl-04", "name": "深度学习框架 PyTorch", "category": "工具链", "level": 2, "hours": 8, "prerequisites": ["dl-01", "dl-03"], "summary": "张量、自动求导、Dataset/DataLoader 与训练循环。", "resource": "PyTorch 官方教程"},
+        {"id": "dl-05", "name": "神经网络与反向传播", "category": "深度学习", "level": 2, "hours": 8, "prerequisites": ["dl-02", "dl-04"], "summary": "MLP、激活函数、损失函数、优化器与手写反向传播。", "resource": "《深度学习》第 6-8 章"},
+        {"id": "dl-06", "name": "CNN 与计算机视觉", "category": "深度学习", "level": 3, "hours": 10, "prerequisites": ["dl-05"], "summary": "卷积网络、经典骨干与图像分类/检测任务。", "resource": "CS231n 课程"},
+        {"id": "dl-07", "name": "RNN/LSTM 与序列建模", "category": "深度学习", "level": 3, "hours": 8, "prerequisites": ["dl-05"], "summary": "循环网络、梯度消失与序列任务建模。", "resource": "《动手学深度学习》第 9 章"},
+        {"id": "dl-08", "name": "Transformer 与注意力机制", "category": "深度学习", "level": 3, "hours": 12, "prerequisites": ["dl-05"], "summary": "自注意力、位置编码、Encoder-Decoder 与实现。", "resource": "《Attention Is All You Need》+ 图解 Transformer"},
+        {"id": "dl-09", "name": "大模型与提示工程", "category": "大模型", "level": 3, "hours": 8, "prerequisites": ["dl-08"], "summary": "预训练/微调范式、Prompt、RAG 与 Agent 编排。", "resource": "LangChain / LlamaIndex 文档"},
+        {"id": "dl-10", "name": "训练技巧与调参", "category": "深度学习", "level": 3, "hours": 8, "prerequisites": ["dl-06"], "summary": "初始化、归一化、学习率策略、过拟合与实验管理。", "resource": "《深度学习调参手册》"},
+        {"id": "dl-11", "name": "数据工程与标注流程", "category": "工程实践", "level": 3, "hours": 6, "prerequisites": ["dl-04"], "summary": "数据清洗、增强、标注质检与版本管理。", "resource": "DVC + Label Studio"},
+        {"id": "dl-12", "name": "模型压缩与推理部署", "category": "工程部署", "level": 4, "hours": 10, "prerequisites": ["dl-10"], "summary": "剪枝、量化、蒸馏与 ONNX/TensorRT 推理优化。", "resource": "ONNX Runtime 文档"},
+        {"id": "dl-13", "name": "论文阅读与复现", "category": "科研能力", "level": 4, "hours": 12, "prerequisites": ["dl-08", "dl-10"], "summary": "论文结构拆解、代码复现与消融实验设计。", "resource": "Papers with Code"},
+        {"id": "dl-14", "name": "端到端项目实战", "category": "项目实战", "level": 4, "hours": 20, "prerequisites": ["dl-11", "dl-12"], "summary": "完成数据—训练—评估—部署的完整闭环并产出报告。", "resource": "Kaggle 竞赛 + 自建项目"}
+      ]
+    }
+  },
+  "generic": {
+    "label": "自定义学习主题",
+    "keywords": [],
+    "overview": "按认知规律生成通用四阶段学习路径：概念认知、基础能力、进阶专题、项目实战。",
+    "points": [
+      {"id": "gen-01", "name": "明确目标与应用场景", "category": "目标定义", "level": 1, "hours": 3, "prerequisites": [], "summary": "写清学完要解决什么问题、达到什么水平、如何验收。", "resource": "SMART 目标法"},
+      {"id": "gen-02", "name": "建立知识地图", "category": "目标定义", "level": 1, "hours": 4, "prerequisites": ["gen-01"], "summary": "梳理领域全貌与核心分支，形成学习目录。", "resource": "领域综述文章 / 优秀 Roadmap"},
+      {"id": "gen-03", "name": "核心概念与术语", "category": "基础概念", "level": 1, "hours": 6, "prerequisites": ["gen-02"], "summary": "掌握高频术语与基础原理，能向他人解释。", "resource": "入门教材前 3 章"},
+      {"id": "gen-04", "name": "基础工具与环境搭建", "category": "基础概念", "level": 2, "hours": 5, "prerequisites": ["gen-03"], "summary": "配置工具链，跑通第一个最小示例。", "resource": "官方 Getting Started"},
+      {"id": "gen-05", "name": "核心技能刻意练习", "category": "核心能力", "level": 2, "hours": 10, "prerequisites": ["gen-04"], "summary": "拆解子技能，进行有反馈的重复训练。", "resource": "练习题 / 教程案例"},
+      {"id": "gen-06", "name": "常见问题与模式", "category": "核心能力", "level": 2, "hours": 8, "prerequisites": ["gen-05"], "summary": "总结典型场景与解决套路，形成清单。", "resource": "社区问答 / FAQ"},
+      {"id": "gen-07", "name": "进阶专题攻坚", "category": "进阶专题", "level": 3, "hours": 12, "prerequisites": ["gen-06"], "summary": "攻克 2-3 个高价值难点专题。", "resource": "进阶课程 / 官方进阶文档"},
+      {"id": "gen-08", "name": "源码或原理深挖", "category": "进阶专题", "level": 3, "hours": 10, "prerequisites": ["gen-07"], "summary": "阅读源码或原始资料，理解底层实现。", "resource": "项目源码 / 原始论文"},
+      {"id": "gen-09", "name": "综合项目实践", "category": "项目实战", "level": 4, "hours": 16, "prerequisites": ["gen-08"], "summary": "独立完成一个可展示的完整项目。", "resource": "真实需求 / 作品集题目"},
+      {"id": "gen-10", "name": "复盘与输出", "category": "项目实战", "level": 4, "hours": 6, "prerequisites": ["gen-09"], "summary": "写复盘、做分享，输出可复用的知识资产。", "resource": "技术博客 / 分享会"}
+    ]
+  }
+}

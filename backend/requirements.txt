@@ -1,0 +1,8 @@
+# 锁定为当前验证过的版本（安装后已通过端到端测试）
+fastapi==0.162.5
+uvicorn[standard]==0.54.0
+httpx==0.28.1
+pydantic==2.14.3
+python-dotenv==1.2.4
+langgraph==1.2.20
+langchain-core==1.8.0
